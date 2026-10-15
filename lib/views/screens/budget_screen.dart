@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
 import '../../viewmodels/budget_viewmodel.dart';
 import '../widgets/common/category_avatar.dart';
+import '../widgets/common/glass_card.dart';
 import '../widgets/common/progress_bar.dart';
 import '../widgets/common/section_header.dart';
 
@@ -55,12 +56,8 @@ class _HeroBudgetCard extends StatelessWidget {
         ? AppColors.accent
         : AppColors.ink;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: AppColors.cardShadow,
-      ),
+    return GlassCard(
+      radius: 24,
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,12 +191,8 @@ class _DailyAllowanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: AppColors.cardShadow,
-      ),
+    return GlassCard(
+      radius: 24,
       padding: const EdgeInsets.all(20),
       child: Row(
         children: <Widget>[
@@ -270,12 +263,8 @@ class _CategoryBudgetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<CategoryBudget> items = vm.categoryBudgets;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: AppColors.cardShadow,
-      ),
+    return GlassCard(
+      radius: 24,
       padding: const EdgeInsets.all(18),
       child: Column(
         children: <Widget>[

@@ -6,6 +6,7 @@ import '../../core/utils/formatters.dart';
 import '../../viewmodels/stats_viewmodel.dart';
 import '../widgets/common/bar_chart.dart';
 import '../widgets/common/donut_chart.dart';
+import '../widgets/common/glass_card.dart';
 import '../widgets/common/section_header.dart';
 import '../widgets/common/stat_card.dart';
 
@@ -41,12 +42,8 @@ class StatsScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Weekly chart card
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: AppColors.cardShadow,
-            ),
+          GlassCard(
+            radius: 24,
             padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,12 +135,8 @@ class _BreakdownCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<CategorySlice> slices = vm.breakdown;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: AppColors.cardShadow,
-      ),
+    return GlassCard(
+      radius: 24,
       padding: const EdgeInsets.all(18),
       child: Column(
         children: <Widget>[

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
 import '../../viewmodels/profile_viewmodel.dart';
+import '../widgets/common/glass_card.dart';
 
 /// Profile tab: account summary and settings list.
 class ProfileScreen extends StatelessWidget {
@@ -137,12 +138,8 @@ class _StatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: AppColors.cardShadow,
-      ),
+    return GlassCard(
+      radius: 24,
       padding: const EdgeInsets.symmetric(vertical: 22),
       child: Row(
         children: <Widget>[
@@ -218,44 +215,46 @@ class _MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.surface,
-      borderRadius: BorderRadius.circular(24),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: <Widget>[
-          for (int i = 0; i < items.length; i++) ...<Widget>[
-            ListTile(
-              leading: Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceMuted,
-                  borderRadius: BorderRadius.circular(14),
+    return GlassCard(
+      radius: 24,
+      padding: EdgeInsets.zero,
+      child: Material(
+        color: Colors.transparent,
+        child: Column(
+          children: <Widget>[
+            for (int i = 0; i < items.length; i++) ...<Widget>[
+              ListTile(
+                leading: Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(items[i].icon, size: 20, color: AppColors.ink),
                 ),
-                child: Icon(items[i].icon, size: 20, color: AppColors.ink),
-              ),
-              title: Text(
-                items[i].title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.ink,
+                title: Text(
+                  items[i].title,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.ink,
+                  ),
                 ),
-              ),
-              trailing: const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.inkTertiary,
-              ),
-              onTap: () => ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(content: Text('${items[i].title} coming soon')),
+                trailing: const Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.inkTertiary,
                 ),
-            ),
-            if (i != items.length - 1) const Divider(height: 1, indent: 70),
+                onTap: () => ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(content: Text('${items[i].title} coming soon')),
+                  ),
+              ),
+              if (i != items.length - 1) const Divider(height: 1, indent: 70),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

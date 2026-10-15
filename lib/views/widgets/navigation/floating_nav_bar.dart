@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../common/glass_card.dart';
 
 /// Floating white bottom navigation bar; the active item expands into a
 /// dark pill with its label (matching the reference design).
@@ -27,26 +28,22 @@ class FloatingNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(28),
-          boxShadow: AppColors.cardShadow,
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            for (int i = 0; i < _items.length; i++)
-              _NavItem(
-                data: _items[i],
-                selected: index == i,
-                onTap: () => onSelect(i),
-              ),
-          ],
-        ),
+    return GlassCard(
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+      radius: 28,
+      blur: 24,
+      opacity: 0.5,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          for (int i = 0; i < _items.length; i++)
+            _NavItem(
+              data: _items[i],
+              selected: index == i,
+              onTap: () => onSelect(i),
+            ),
+        ],
       ),
     );
   }
