@@ -119,4 +119,61 @@ void main() {
 
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('every bottom-nav destination renders', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const ExpenseTrackerApp());
+    await tester.pumpAndSettle();
+
+    // Home (initially selected).
+    expect(find.text('Home'), findsWidgets);
+
+    // Stats.
+    await tester.tap(find.byIcon(Icons.insights_outlined));
+    await tester.pumpAndSettle();
+    expect(find.text('Statistics'), findsOneWidget);
+
+    // Budget.
+    await tester.tap(find.byIcon(Icons.account_balance_wallet_outlined));
+    await tester.pumpAndSettle();
+    expect(find.text('Monthly budget'), findsOneWidget);
+
+    // Profile.
+    await tester.tap(find.byIcon(Icons.person_outline_rounded));
+    await tester.pumpAndSettle();
+    expect(find.text('miranda@example.com'), findsOneWidget);
+
+    // Back to Home.
+    await tester.tap(find.byIcon(Icons.home_outlined));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Miranda', findRichText: true), findsWidgets);
+
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the + action opens the Add expense screen', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const ExpenseTrackerApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.add_rounded));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Add expense'), findsOneWidget);
+    expect(find.text('Amount'), findsOneWidget);
+    expect(find.text('Category'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 }
