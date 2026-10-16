@@ -4,6 +4,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../viewmodels/dashboard_viewmodel.dart';
 import '../common/stat_card.dart';
+import 'mini_bars.dart';
 
 /// The staggered 2×2 summary grid from the reference design.
 class SummaryGrid extends StatelessWidget {
@@ -63,51 +64,12 @@ class SummaryGrid extends StatelessWidget {
                 value: Formatters.currency(viewModel.remaining, compact: true),
                 subtitle: under ? 'On track' : 'Over budget',
                 subtitleColor: under ? AppColors.positive : AppColors.accent,
-                child: _MiniBars(values: viewModel.last7DayTotals),
+                child: MiniBars(values: viewModel.last7DayTotals),
               ),
             ],
           ),
         ),
       ],
-    );
-  }
-}
-
-/// Tiny 7-bar sparkline used inside the budget card.
-class _MiniBars extends StatelessWidget {
-  const _MiniBars({required this.values});
-
-  final List<double> values;
-
-  @override
-  Widget build(BuildContext context) {
-    final double max = values.fold<double>(
-      0,
-      (double m, double v) => v > m ? v : m,
-    );
-
-    return SizedBox(
-      height: 34,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          for (int i = 0; i < values.length; i++)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: Container(
-                  height: max == 0 ? 4 : (values[i] / max * 34).clamp(4.0, 34.0),
-                  decoration: BoxDecoration(
-                    color: i == values.length - 1
-                        ? AppColors.accent
-                        : AppColors.accentSoft,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/utils/formatters.dart';
 import '../../viewmodels/profile_viewmodel.dart';
-import '../widgets/common/glass_card.dart';
+import '../widgets/profile/menu_card.dart';
+import '../widgets/profile/menu_item.dart';
+import '../widgets/profile/profile_stats_card.dart';
 
 /// Profile tab: account summary and settings list.
 class ProfileScreen extends StatelessWidget {
@@ -90,14 +91,14 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          _StatsCard(vm: vm),
+          ProfileStatsCard(vm: vm),
           const SizedBox(height: 26),
-          const _MenuCard(
-            items: <_MenuItem>[
-              _MenuItem(Icons.settings_outlined, 'Settings'),
-              _MenuItem(Icons.notifications_none_rounded, 'Notifications'),
-              _MenuItem(Icons.file_download_outlined, 'Export data'),
-              _MenuItem(Icons.help_outline_rounded, 'Help & support'),
+          const MenuCard(
+            items: <MenuItem>[
+              MenuItem(Icons.settings_outlined, 'Settings'),
+              MenuItem(Icons.notifications_none_rounded, 'Notifications'),
+              MenuItem(Icons.file_download_outlined, 'Export data'),
+              MenuItem(Icons.help_outline_rounded, 'Help & support'),
             ],
           ),
           const SizedBox(height: 16),
@@ -128,134 +129,5 @@ class ProfileScreen extends StatelessWidget {
       ..showSnackBar(
         SnackBar(content: Text('$label is not part of this prototype')),
       );
-  }
-}
-
-class _StatsCard extends StatelessWidget {
-  const _StatsCard({required this.vm});
-
-  final ProfileViewModel vm;
-
-  @override
-  Widget build(BuildContext context) {
-    return GlassCard(
-      radius: 24,
-      padding: const EdgeInsets.symmetric(vertical: 22),
-      child: Row(
-        children: <Widget>[
-          _Stat(
-            value: Formatters.currency(vm.totalTracked, compact: true),
-            label: 'Tracked',
-          ),
-          const _StatDivider(),
-          _Stat(value: '${vm.transactionCount}', label: 'Records'),
-          const _StatDivider(),
-          _Stat(value: '${vm.categoryCount}', label: 'Categories'),
-        ],
-      ),
-    );
-  }
-}
-
-class _Stat extends StatelessWidget {
-  const _Stat({required this.value, required this.label});
-
-  final String value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: <Widget>[
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.6,
-              color: AppColors.ink,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.inkSecondary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StatDivider extends StatelessWidget {
-  const _StatDivider();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(width: 1, height: 36, color: AppColors.divider);
-  }
-}
-
-@immutable
-class _MenuItem {
-  const _MenuItem(this.icon, this.title);
-  final IconData icon;
-  final String title;
-}
-
-class _MenuCard extends StatelessWidget {
-  const _MenuCard({required this.items});
-
-  final List<_MenuItem> items;
-
-  @override
-  Widget build(BuildContext context) {
-    return GlassCard(
-      radius: 24,
-      padding: EdgeInsets.zero,
-      child: Material(
-        color: Colors.transparent,
-        child: Column(
-          children: <Widget>[
-            for (int i = 0; i < items.length; i++) ...<Widget>[
-              ListTile(
-                leading: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Icon(items[i].icon, size: 20, color: AppColors.ink),
-                ),
-                title: Text(
-                  items[i].title,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.ink,
-                  ),
-                ),
-                trailing: const Icon(
-                  Icons.chevron_right_rounded,
-                  color: AppColors.inkTertiary,
-                ),
-                onTap: () => ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(content: Text('${items[i].title} coming soon')),
-                  ),
-              ),
-              if (i != items.length - 1) const Divider(height: 1, indent: 70),
-            ],
-          ],
-        ),
-      ),
-    );
   }
 }

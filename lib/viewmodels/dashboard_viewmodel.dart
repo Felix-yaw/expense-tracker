@@ -1,23 +1,15 @@
 import '../core/utils/formatters.dart';
-import '../data/models/expense.dart';
 import '../data/models/budget.dart';
+import '../data/models/expense.dart';
+import 'period_filter.dart';
 import 'view_model.dart';
-
-/// Time window for the dashboard's recent-activity filter.
-enum PeriodFilter {
-  all('All'),
-  week('This week'),
-  month('This month');
-
-  const PeriodFilter(this.label);
-  final String label;
-}
 
 /// Backs the Home/dashboard screen.
 class DashboardViewModel extends ViewModel {
   DashboardViewModel(super.repository);
 
   PeriodFilter _filter = PeriodFilter.all;
+
   PeriodFilter get filter => _filter;
 
   String get userName => 'Miranda';
@@ -32,8 +24,7 @@ class DashboardViewModel extends ViewModel {
 
   double get budgetLimit => budget.monthlyLimit;
 
-  double get remaining =>
-      (budgetLimit - monthSpent).clamp(0, double.infinity);
+  double get remaining => (budgetLimit - monthSpent).clamp(0, double.infinity);
 
   double get budgetUsedFraction =>
       budgetLimit <= 0 ? 0 : (monthSpent / budgetLimit).clamp(0.0, 1.0);

@@ -3,12 +3,13 @@ import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/formatters.dart';
+import '../../viewmodels/daily_bar.dart';
 import '../../viewmodels/stats_viewmodel.dart';
 import '../widgets/common/bar_chart.dart';
-import '../widgets/common/donut_chart.dart';
 import '../widgets/common/glass_card.dart';
 import '../widgets/common/section_header.dart';
 import '../widgets/common/stat_card.dart';
+import '../widgets/stats/breakdown_card.dart';
 
 /// Statistics tab: weekly bar chart and category breakdown.
 class StatsScreen extends StatelessWidget {
@@ -119,94 +120,9 @@ class StatsScreen extends StatelessWidget {
 
           const SectionHeader(title: 'Where it goes'),
           const SizedBox(height: 14),
-          _BreakdownCard(vm: vm),
+          BreakdownCard(vm: vm),
         ],
       ),
-    );
-  }
-}
-
-class _BreakdownCard extends StatelessWidget {
-  const _BreakdownCard({required this.vm});
-
-  final StatsViewModel vm;
-
-  @override
-  Widget build(BuildContext context) {
-    final List<CategorySlice> slices = vm.breakdown;
-
-    return GlassCard(
-      radius: 24,
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        children: <Widget>[
-          DonutChart(
-            slices: slices
-                .map(
-                  (CategorySlice s) =>
-                      DonutSlice(color: s.category.color, fraction: s.fraction),
-                )
-                .toList(),
-            centerTitle: Formatters.currency(vm.monthTotal, compact: true),
-            centerSubtitle: 'this month',
-          ),
-          const SizedBox(height: 20),
-          for (final CategorySlice slice in slices) ...<Widget>[
-            _LegendRow(slice: slice),
-            if (slice != slices.last) const SizedBox(height: 14),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _LegendRow extends StatelessWidget {
-  const _LegendRow({required this.slice});
-
-  final CategorySlice slice;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-          width: 12,
-          height: 12,
-          decoration: BoxDecoration(
-            color: slice.category.color,
-            shape: BoxShape.circle,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Text(
-            slice.category.label,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: AppColors.ink,
-            ),
-          ),
-        ),
-        Text(
-          Formatters.currency(slice.amount),
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: AppColors.ink,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Text(
-          '${(slice.fraction * 100).round()}%',
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: AppColors.inkSecondary,
-          ),
-        ),
-      ],
     );
   }
 }

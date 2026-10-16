@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import 'ambient_blob.dart';
 
 /// Soft, colourful mesh background that sits behind the whole app.
 ///
@@ -29,7 +30,7 @@ class AmbientBackground extends StatelessWidget {
         Positioned(
           top: -130,
           left: -110,
-          child: _Blob(
+          child: AmbientBlob(
             size: 360,
             color: AppColors.accent.withValues(alpha: 0.34),
           ),
@@ -37,7 +38,7 @@ class AmbientBackground extends StatelessWidget {
         Positioned(
           top: -50,
           right: -120,
-          child: _Blob(
+          child: AmbientBlob(
             size: 320,
             color: const Color(0xFF6C8CFF).withValues(alpha: 0.24),
           ),
@@ -45,7 +46,7 @@ class AmbientBackground extends StatelessWidget {
         Positioned(
           top: 320,
           left: -150,
-          child: _Blob(
+          child: AmbientBlob(
             size: 320,
             color: const Color(0xFFFFB48A).withValues(alpha: 0.26),
           ),
@@ -53,36 +54,13 @@ class AmbientBackground extends StatelessWidget {
         Positioned(
           bottom: -140,
           right: -90,
-          child: _Blob(
+          child: AmbientBlob(
             size: 360,
             color: const Color(0xFF7BE0B8).withValues(alpha: 0.22),
           ),
         ),
         Positioned.fill(child: child),
       ],
-    );
-  }
-}
-
-class _Blob extends StatelessWidget {
-  const _Blob({required this.size, required this.color});
-
-  final double size;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: RadialGradient(
-            colors: <Color>[color, color.withValues(alpha: 0)],
-          ),
-        ),
-      ),
     );
   }
 }

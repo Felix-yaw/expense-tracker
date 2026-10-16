@@ -1,27 +1,9 @@
 import '../core/utils/formatters.dart';
 import '../data/models/expense.dart';
 import '../data/models/expense_category.dart';
+import 'category_slice.dart';
+import 'daily_bar.dart';
 import 'view_model.dart';
-
-/// A single bar in the weekly chart.
-class DailyBar {
-  const DailyBar({required this.label, required this.value, required this.date});
-  final String label;
-  final double value;
-  final DateTime date;
-}
-
-/// A slice in the category breakdown.
-class CategorySlice {
-  const CategorySlice({
-    required this.category,
-    required this.amount,
-    required this.fraction,
-  });
-  final ExpenseCategory category;
-  final double amount;
-  final double fraction;
-}
 
 /// Backs the Statistics screen.
 class StatsViewModel extends ViewModel {
